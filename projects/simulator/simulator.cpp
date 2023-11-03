@@ -28,12 +28,8 @@ std::tuple<std::string, std::string> GreenhouseSimulator::generateControls(
     return std::make_tuple(simulateTemperature(), simulateHumidity());
 }
 
-double GreenhouseSimulator::getTemperature(){
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_real_distribution<double> noise(-0.25, 0.25); // Adjust the range as needed
-    double noisyTemperature = current_temperature + noise(gen);
-    return noisyTemperature;
+float GreenhouseSimulator::getTemperature(){
+    return current_temperature;
 }
 
 double basic_temperature_control(double inside_temperature, double outside_temperature) {

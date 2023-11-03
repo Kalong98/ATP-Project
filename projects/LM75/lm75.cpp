@@ -1,57 +1,42 @@
-// #include <Wire.h>
 #include <stdint.h>
-#include "..\simulator/simulator.hpp"
+#include <random>
+#include "lm75.hpp"
 
+LM75::LM75(uint8_t address, GreenhouseSimulator &simulator):
+address(address), 
+greenhouse(simulator)
+{}
 
-class LM75 {
-private:
-    uint8_t address; //0x48
-    static const uint8_t LM75_TEMP_REGISTER = 0x00;
-    GreenhouseSimulator & greenhouse;
+uint16_t LM75::readTemperature() {
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_real_distribution<double> noise(-0.5, 0.5); // Adjust the range as needed
 
-public:
-    LM75(uint8_t address, GreenhouseSimulator & simulator):
-    address(address),
-    greenhouse(simulator)
-    {}
+	// Add noise to the temperature within the specified deviation
+	double noisyTemperature = greenhouse.getTemperature() + noise(gen);
 
-    // void begin() {
-    //     Wire.begin();
-    // }
+	uint16_t rawData = 0x0000;
+	uint8_t tempValue = 0x00;
 
-    double readTemperature() {
-        Wire.beginTransmission(address);
-        Wire.write(LM75_TEMP_REGISTER);
-        Wire.endTransmission();
+	if (noisyTemperature == 0.0) {
+		tempValue = 0;
+	} else if (noisyTemperature > 0.0) { // Positive temperatures
+		if (noisyTemperature >= 125.0) {
+			rawData = 250 << 7;
+		} else {
+			tempValue = noisyTemperature / 0.5;
+			rawData = tempValue << 7;
+		}
+	} else { // Negative temperatures
+		if (noisyTemperature <= -55.0) {
+			rawData = 1 << 15;
+			rawData = rawData | 146 << 7;
+		} else {
+			tempValue = 256 + (noisyTemperature / 0.5);
+			rawData = 1 << 15;
+			rawData = rawData | tempValue << 7;
+		}
+	}
 
-        Wire.requestFrom(address, 2);
-        if (Wire.available() >= 2) {
-        int raw_temperature = Wire.read() << 8 | Wire.read();
-        return (double(raw_temperature >> 7) * 0.5);
-        }
-        return -1.0; // Error reading temperature
-    }
-
-
-};
-
-LM75 lm75(0x48); // LM75 I2C address
-
-void setup() {
-  Serial.begin(9600);
-  lm75.begin();
-}
-
-void loop() {
-  double temperature = lm75.readTemperature();
-  
-  if (temperature >= 0.0) {
-    Serial.print("Temperature: ");
-    Serial.print(temperature);
-    Serial.println(" °C");
-  } else {
-    Serial.println("Error reading temperature.");
-  }
-
-  delay(1000); // Adjust the sampling interval as needed
+	return rawData;
 }

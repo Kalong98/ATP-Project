@@ -19,11 +19,11 @@ public:
         std::function<double(double, double)> temperatureControlCallback,
         std::function<double(double, double)> humidityControlCallback);
 
-    double getTemperature();
+    float getTemperature();
 };
 
 double basic_temperature_control(double inside_temperature, double outside_temperature);
 
 double basic_humidity_control(double inside_humidity, double outside_humidity);
 
-#endif
+#endif //GREENHOUSE_SIMULATOR_HPP
