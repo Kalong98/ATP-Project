@@ -33,7 +33,6 @@ uint16_t SHT35::readTemperature() { // Might not be accurate with SHT35 datashee
 			rawData = rawData | tempValue << 7;
 		}
 	}
-
 	return rawData;
 }
 
@@ -47,23 +46,29 @@ uint16_t SHT35::readHumidity() {
 
     uint16_t rawData = 0x0000;
 
-    rawData = 
-
-    return rawData; // Simulate humidity reading
+    rawData = (65535 / 100) * noisyHumidity;
+    return rawData;
 }
 
-main(){
+void SHT35::updateData(){
+	uint8_t data[6] = {0};
+	uint16_t tempData = readTemperature();
+	uint16_t humData = readHumidity();
+	uint8_t checksum = 0x12;
+	
+	uint8_t tempMSB = (tempData >> 8) & 0xFF;
+    uint8_t tempLSB = tempData & 0xFF;
+    uint8_t humMSB = (humData >> 8) & 0xFF;
+    uint8_t humLSB = humData & 0xFF;
 
-	u8 data[6]={0};
-	u16 temp_hex=0,hum_hex=0;
-	CHECK_RESULT(ret,send_command(cfg_cmd));
-	CHECK_RESULT(ret,read_bytes(data,sizeof(data),CLK_STRCH_STAT));
+	data[0] = tempMSB;
+    data[1] = tempLSB;
+	data[2] = checksum;
+    data[3] = humMSB;
+	data[4] = humLSB;
+    data[5] = checksum;
+}
 
-	temp_hex=(data[0] << 8) | data[1];
-	hum_hex =(data[3] << 8) | data[4];
-
-	*temp =get_temp(temp_hex);
-	*hum=get_hum(hum_hex);
-
-
+const uint8_t* SHT35::getData() {
+    return data;
 }
