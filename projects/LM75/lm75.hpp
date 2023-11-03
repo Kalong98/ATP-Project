@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 #include <random>
-#include "..\simulator\simulator.hpp"
+#include "simulator\simulator.hpp"
 
 class LM75 {
 private:

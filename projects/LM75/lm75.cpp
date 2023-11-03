@@ -2,7 +2,7 @@
 #include <random>
 #include "lm75.hpp"
 
-LM75::LM75(uint8_t address, GreenhouseSimulator &simulator):
+LM75::LM75(uint8_t address, GreenhouseSimulator & simulator):
 address(address), 
 greenhouse(simulator)
 {}
@@ -10,7 +10,7 @@ greenhouse(simulator)
 uint16_t LM75::readTemperature() {
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_real_distribution<double> noise(-0.5, 0.5); // Adjust the range as needed
+	std::uniform_real_distribution<double> noise(-0.25, 0.25); // Adjust the range as needed
 
 	// Add noise to the temperature within the specified deviation
 	double noisyTemperature = greenhouse.getTemperature() + noise(gen);

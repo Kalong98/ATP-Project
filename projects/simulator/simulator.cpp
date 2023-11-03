@@ -28,8 +28,12 @@ std::tuple<std::string, std::string> GreenhouseSimulator::generateControls(
     return std::make_tuple(simulateTemperature(), simulateHumidity());
 }
 
-float GreenhouseSimulator::getTemperature(){
+double GreenhouseSimulator::getTemperature(){
     return current_temperature;
+}
+
+double GreenhouseSimulator::getHumidity(){
+    return current_humidity;
 }
 
 double basic_temperature_control(double inside_temperature, double outside_temperature) {

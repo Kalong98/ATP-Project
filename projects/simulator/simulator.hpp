@@ -19,7 +19,8 @@ public:
         std::function<double(double, double)> temperatureControlCallback,
         std::function<double(double, double)> humidityControlCallback);
 
-    float getTemperature();
+    double getTemperature();
+    double getHumidity();
 };
 
 double basic_temperature_control(double inside_temperature, double outside_temperature);
