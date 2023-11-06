@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <random>
 #include "lm75.hpp"
+#include <iostream>
 
 LM75::LM75(GreenhouseSimulator & simulator):
 greenhouse(simulator)
@@ -13,7 +14,6 @@ uint16_t LM75::readTemperature() {
 
 	// Add noise to the temperature within the specified deviation
 	double noisyTemperature = greenhouse.getTemperature() + noise(gen);
-
 	uint16_t rawData = 0x0000;
 	uint8_t tempValue = 0x00;
 
@@ -36,6 +36,6 @@ uint16_t LM75::readTemperature() {
 			rawData = rawData | tempValue << 7;
 		}
 	}
-
+	std::cout << rawData << "\n";
 	return rawData;
 }

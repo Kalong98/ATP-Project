@@ -32,6 +32,7 @@ void I2CSimulation::request(uint8_t numBytes) {
         if (numBytes == 2) {
             uint8_t tempMSB = (tempRaw >> 8) & 0xFF;
             uint8_t tempLSB = tempRaw & 0xFF;
+            std::cout << "Request: " << static_cast<int>(tempMSB) << "," << static_cast<int>(tempLSB) << "\n";
             lm75Data[0] = tempMSB;
             lm75VectorSize += 1;
             lm75Data[1] = tempLSB;
@@ -47,11 +48,13 @@ uint8_t I2CSimulation::read() {
             return lm75Data[0];
         }
         else {
+            uint8_t res = 0x00;
             for (unsigned int i = 0; i < lm75VectorSize - 1; i++){
-            lm75Data[i] = lm75Data[lm75VectorSize - 1];
+                res = lm75Data[i];
+                lm75Data[i] = lm75Data[lm75VectorSize - 1];
             }
             lm75VectorSize -= 1;
-            return lm75Data[0];
+            return res;
         }
     }
     return 0;
@@ -80,14 +83,18 @@ int main()
     I2CSimulation i2c(lm75, sht35);
     auto [s1, s2] = simulator.generateControls(basic_temperature_control, basic_humidity_control);
 
-    for (int i = 0; i < simulation_duration; ++i) {
+    for (int i = 0; i < simulation_duration; i++) {
+        std::cout << "loop:" << i << "\n";
         i2c.selectDevice(0x48);
         i2c.write(0x00, 0);
         i2c.request(2);
-        int temperature = (i2c.read() << 8) | i2c.read();
-        std::cout << temperature << std::endl;
-        std::cout << s1 << std::endl;
-        std::cout << s2 << std::endl;
+        uint8_t tempMSB = i2c.read();
+        uint8_t tempLSB = i2c.read();
+        // int temperature = (i2c.read() << 8) | i2c.read();
+        std::cout << "Loop: " << static_cast<int>(tempMSB) << "," << static_cast<int>(tempLSB) << "\n";
+        std::cout << s1() << "\n";
+        std::cout << s2() << "\n";
+        std::cout << "\n";
     }
 
     return 0;

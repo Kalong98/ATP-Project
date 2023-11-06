@@ -1,0 +1,13 @@
+"args": [
+    "-fdiagnostics-color=always",
+    "-g",
+    "projects/I2C/i2c.cpp",
+    "projects/LM75/lm75.cpp",
+    "projects/SHT35/sht35.cpp",
+    "projects/simulator/simulator.cpp",
+    "-o",
+    "projects/I2C/i2c.exe"
+],
+"options": {
+    "cwd": "${workspaceFolder}"
+},

@@ -15,7 +15,7 @@ private:
 public:
     GreenhouseSimulator(double initial_temperature, double initial_humidity, double outside_temperature, double outside_humidity);
 
-    std::tuple<std::string, std::string> generateControls(
+    std::tuple<std::function<std::string()>, std::function<std::string()>> generateControls(
         std::function<double(double, double)> temperatureControlCallback,
         std::function<double(double, double)> humidityControlCallback);
 

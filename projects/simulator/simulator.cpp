@@ -9,7 +9,7 @@ current_humidity(initial_humidity),
 outside_humidity(outside_humidity)
 {}
 
-std::tuple<std::string, std::string> GreenhouseSimulator::generateControls(
+std::tuple<std::function<std::string()>, std::function<std::string()>> GreenhouseSimulator::generateControls(
     std::function<double(double, double)> temperatureControlCallback,
     std::function<double(double, double)> humidityControlCallback){
     auto simulateTemperature = [this, temperatureControlCallback]() {
@@ -25,7 +25,7 @@ std::tuple<std::string, std::string> GreenhouseSimulator::generateControls(
         return s2;
     };
 
-    return std::make_tuple(simulateTemperature(), simulateHumidity());
+    return std::make_tuple(simulateTemperature, simulateHumidity);
 }
 
 double GreenhouseSimulator::getTemperature(){
