@@ -1,7 +1,7 @@
 #include "sht35.hpp"
 
-SHT35::SHT35(uint8_t address, GreenhouseSimulator &simulator)
-    : address(address), greenhouse(simulator) {}
+SHT35::SHT35(GreenhouseSimulator &simulator):
+	greenhouse(simulator) {}
 
 uint16_t SHT35::readTemperature() { // Might not be accurate with SHT35 datasheet, function copied from LM35
 	std::random_device rd;
@@ -51,7 +51,6 @@ uint16_t SHT35::readHumidity() {
 }
 
 void SHT35::updateData(){
-	uint8_t data[6] = {0};
 	uint16_t tempData = readTemperature();
 	uint16_t humData = readHumidity();
 	uint8_t checksum = 0x12;
@@ -69,6 +68,6 @@ void SHT35::updateData(){
     data[5] = checksum;
 }
 
-const uint8_t* SHT35::getData() {
-    return data;
+std::vector<uint8_t>* SHT35::getData() {
+    return &data;
 }

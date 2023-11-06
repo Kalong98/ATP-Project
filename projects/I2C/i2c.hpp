@@ -2,24 +2,30 @@
 #define I2C_SIMULATION_H
 
 #include <cstdint>
-#include "projects\LM75\lm75.hpp"
-#include "projects\SHT35\sht35.hpp"
+#include "../LM75/lm75.hpp"
+#include "../SHT35/sht35.hpp"
+#include "../simulator/simulator.hpp"
 
 #define LM75_ADRESS 0x48
 #define SHT35_ADRESS 0x44
+#define LM75_TEMP_REGISTER 0x00
 
 class I2CSimulation {
 private:
     LM75 lm75;
     SHT35 sht35;
     uint8_t dataRegister;
-    uint16_t data;
     uint8_t currentDevice;
+    uint16_t tempRaw;
+    std::vector<uint8_t> lm75Data;
+    std::vector<uint8_t> sht35Data;
+    uint8_t lm75Itterator;
+    uint8_t lm75VectorSize;
 public:
-    I2CSimulation::I2CSimulation(LM75 lm75, SHT35 sht35);
+    I2CSimulation(LM75 lm75, SHT35 sht35);
     void write(uint8_t registerAddress, uint8_t value);
     void request(uint8_t numBytes);
-    uint16_t read();
+    uint8_t read();
     void selectDevice(uint8_t deviceAddress);
 
 };

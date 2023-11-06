@@ -2,8 +2,7 @@
 #include <random>
 #include "lm75.hpp"
 
-LM75::LM75(uint8_t address, GreenhouseSimulator & simulator):
-address(address), 
+LM75::LM75(GreenhouseSimulator & simulator):
 greenhouse(simulator)
 {}
 
