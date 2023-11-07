@@ -36,6 +36,14 @@ float GreenhouseSimulator::getHumidity(){
     return current_humidity;
 }
 
+void GreenhouseSimulator::adjustTemp(float adjustment){
+    current_temperature += adjustment;
+}
+void GreenhouseSimulator::adjustHumid(float adjustment){
+    current_humidity += adjustment;
+}
+
+
 float basic_temperature_control(float inside_temperature, float outside_temperature) {
     float temperature_difference = outside_temperature - inside_temperature;
     float temperature_adjustment = temperature_difference * float(0.01);

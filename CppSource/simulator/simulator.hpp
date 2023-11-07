@@ -20,6 +20,8 @@ public:
         std::function<float(float, float)> humidityControlCallback);
     float getTemperature();
     float getHumidity();
+    void adjustTemp(float adjustment);
+    void adjustHumid(float adjustment);
 };
 
 float basic_temperature_control(float inside_temperature, float outside_temperature);

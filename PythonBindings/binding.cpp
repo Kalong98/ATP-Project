@@ -1,4 +1,8 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
+#include <pybind11/complex.h>
+#include <pybind11/functional.h>
+#include <pybind11/chrono.h>
 #include "../CppSource/I2C/i2c.hpp"  // Include your C++ class headers
 #include "../CppSource/LM75/lm75.hpp"
 #include "../CppSource/SHT35/sht35.hpp"
@@ -29,7 +33,9 @@ PYBIND11_MODULE(greenhouse, m) {
         .def(py::init<double, double, double, double>())
         .def("generateControls", &GreenhouseSimulator::generateControls)
         .def("getTemperature", &GreenhouseSimulator::getTemperature)
-        .def("getHumidity", &GreenhouseSimulator::getHumidity);
+        .def("getHumidity", &GreenhouseSimulator::getHumidity)
+        .def("adjustTemp", &GreenhouseSimulator::adjustTemp)
+        .def("adjustHumid", &GreenhouseSimulator::adjustHumid);
 
     m.def("basic_temperature_control", &basic_temperature_control);
     m.def("basic_humidity_control", &basic_humidity_control);

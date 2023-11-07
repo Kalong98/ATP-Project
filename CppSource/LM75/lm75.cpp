@@ -1,5 +1,4 @@
 #include <stdint.h>
-#include <random>
 #include "lm75.hpp"
 #include <iostream>
 
@@ -13,7 +12,7 @@ uint16_t LM75::readTemperature() {
 	std::uniform_real_distribution<double> noise(-0.25, 0.25); // Adjust the range as needed
 
 	// Add noise to the temperature within the specified deviation
-	double noisyTemperature = greenhouse.getTemperature() + noise(gen);
+	float noisyTemperature = greenhouse.getTemperature() + float(noise(gen));
 	uint16_t rawData = 0x0000;
 	uint8_t tempValue = 0x00;
 
@@ -23,7 +22,7 @@ uint16_t LM75::readTemperature() {
 		if (noisyTemperature >= 125.0) {
 			rawData = 250 << 7;
 		} else {
-			tempValue = int(noisyTemperature / 0.5);
+			tempValue = uint8_t(noisyTemperature / 0.5);
 			rawData = tempValue << 7;
 		}
 	} else { // Negative temperatures
@@ -31,7 +30,7 @@ uint16_t LM75::readTemperature() {
 			rawData = 1 << 15;
 			rawData = rawData | 146 << 7;
 		} else {
-			tempValue = int(256 + (noisyTemperature / 0.5));
+			tempValue = uint8_t(256 + (noisyTemperature / 0.5));
 			rawData = 1 << 15;
 			rawData = rawData | tempValue << 7;
 		}
