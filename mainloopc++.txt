@@ -4,7 +4,7 @@ int main()
     double initial_inside_humidity = 20.0;
     double initial_outside_temperature = 15.0;
     double initial_outside_humidity = 60.0;
-    int simulation_duration = 5;
+    int simulation_duration = 1;
 
     GreenhouseSimulator simulator(
         initial_inside_temperature,
@@ -18,7 +18,7 @@ int main()
     auto [s1, s2] = simulator.generateControls(basic_temperature_control, basic_humidity_control);
 
     for (int i = 0; i < simulation_duration; i++) {
-        std::cout << "loop:" << i << "\n";
+        std::cout << "sample:" << i+1 << "\n";
         i2c.selectDevice(0x48);
         i2c.write(0x00, 0);
         i2c.request(2);
@@ -39,11 +39,13 @@ int main()
         float temperature = calculateTempCel_SHT35(tempRaw);
         float humidity = calculateHumid_SHT35(HumidRaw);
         std::cout << "SHT35 temp: " << temperature << "\n";
+        std::cout << "Greemhouse temp: " << static_cast<float>(simulator.getTemperature()) << "\n";
         std::cout << "SHT35 Humid: " << humidity << "\n";
+        std::cout << "Greemhouse humid: " << static_cast<float>(simulator.getHumidity()) << "\n";
         // std::cout << "LM75 temp: " << static_cast<int>(tempMSB) << "," << static_cast<int>(tempLSB) << "\n";
-        std::cout << s1() << "\n";
-        std::cout << s2() << "\n";
-        std::cout << "\n";
+        // std::cout << s1() << "\n";
+        // std::cout << s2() << "\n";
+        // std::cout << "\n";
     }
 
     return 0;
