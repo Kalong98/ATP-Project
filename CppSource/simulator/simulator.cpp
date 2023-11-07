@@ -36,13 +36,13 @@ double GreenhouseSimulator::getHumidity(){
     return current_humidity;
 }
 
-double basic_temperature_control(double inside_temperature, double outside_temperature) {
+double GreenhouseSimulator::basic_temperature_control(double inside_temperature, double outside_temperature) {
     double temperature_difference = outside_temperature - inside_temperature;
     double temperature_adjustment = temperature_difference * 0.01;
     return temperature_adjustment;
 }
 
-double basic_humidity_control(double inside_humidity, double outside_humidity) {
+double GreenhouseSimulator::basic_humidity_control(double inside_humidity, double outside_humidity) {
     double humidity_difference = outside_humidity - inside_humidity;
     double humidity_adjustment = humidity_difference * 0.01;
     return humidity_adjustment;

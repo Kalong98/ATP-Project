@@ -1,2 +1,11 @@
 build path voor laptop
 python 3.9 installeren https://www.python.org/downloads/release/python-390/
+
+When cloning:
+git submodule init
+git submodule update
+
+Make .o files "tasks.json"
+build pybind "python PythonBindings\setup.py build"
+buold wheel "python PythonBindings\setup.py sdist bdist_wheel"
+install wheel "pip install dist/greenhouse-0.0.0-cp39-cp39-win_amd64.whl"
