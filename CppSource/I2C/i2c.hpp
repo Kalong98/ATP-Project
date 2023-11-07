@@ -23,8 +23,8 @@ private:
     uint16_t sht35HumidRaw;
     std::vector<uint8_t> lm75Data;
     std::vector<uint8_t> sht35Data;
-    uint8_t lm75VectorSize;
-    uint8_t sht35VectorSize;
+    unsigned int lm75VectorSize;
+    unsigned int sht35VectorSize;
 public:
     I2CSimulation(LM75 lm75, SHT35 sht35);
     void write(uint8_t registerAddress, uint8_t value);

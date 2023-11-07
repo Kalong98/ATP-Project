@@ -99,7 +99,7 @@
         {
             "type": "cppbuild",
             "label": "C/C++: Compile to Shared Library",
-            "command": "g++",
+            "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "args": [
                 "-shared",
                 "-o",

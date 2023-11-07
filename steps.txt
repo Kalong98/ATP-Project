@@ -6,6 +6,8 @@ git submodule init
 git submodule update
 
 Make .o files "tasks.json"
+build .dll and .a "tasks.json"
 build pybind "python PythonBindings\setup.py build"
+(if not installed) pip install setuptools wheel
 buold wheel "python PythonBindings\setup.py sdist bdist_wheel"
-install wheel "pip install dist/greenhouse-0.0.0-cp39-cp39-win_amd64.whl"
+install wheel "pip install dist/greenhouse-0.0.0-cp39-cp39-win_amd64.whl" (change name if required)

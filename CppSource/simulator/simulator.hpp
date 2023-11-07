@@ -7,21 +7,21 @@
 
 class GreenhouseSimulator {
 private:
-    double current_temperature;
-    double outside_temperature;
-    double current_humidity;
-    double outside_humidity;
+    float current_temperature;
+    float outside_temperature;
+    float current_humidity;
+    float outside_humidity;
 
 public:
-    GreenhouseSimulator(double initial_temperature, double initial_humidity, double outside_temperature, double outside_humidity);
+    GreenhouseSimulator(float initial_temperature, float initial_humidity, float outside_temperature, float outside_humidity);
 
     std::tuple<std::function<std::string()>, std::function<std::string()>> generateControls(
-        std::function<double(double, double)> temperatureControlCallback,
-        std::function<double(double, double)> humidityControlCallback);
-    double basic_temperature_control(double inside_temperature, double outside_temperature);
-    double basic_humidity_control(double inside_humidity, double outside_humidity);
-    double getTemperature();
-    double getHumidity();
+        std::function<float(float, float)> temperatureControlCallback,
+        std::function<float(float, float)> humidityControlCallback);
+    float getTemperature();
+    float getHumidity();
 };
 
+float basic_temperature_control(float inside_temperature, float outside_temperature);
+float basic_humidity_control(float inside_humidity, float outside_humidity);
 #endif //GREENHOUSE_SIMULATOR_HPP

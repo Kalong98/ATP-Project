@@ -28,10 +28,9 @@ PYBIND11_MODULE(greenhouse, m) {
     py::class_<GreenhouseSimulator>(m, "GreenhouseSimulator")
         .def(py::init<double, double, double, double>())
         .def("generateControls", &GreenhouseSimulator::generateControls)
-        .def("basic_temperature_control", &GreenhouseSimulator::basic_temperature_control)
-        .def("basic_humidity_control", &GreenhouseSimulator::basic_humidity_control)
         .def("getTemperature", &GreenhouseSimulator::getTemperature)
         .def("getHumidity", &GreenhouseSimulator::getHumidity);
-        
 
+    m.def("basic_temperature_control", &basic_temperature_control);
+    m.def("basic_humidity_control", &basic_humidity_control);
 }

@@ -13,7 +13,7 @@ uint16_t SHT35::readTemperature() {
 
 	uint16_t rawData = 0x0000;
 
-	rawData = (noisyTemperature + 45) * (65535 / 175);
+	rawData = int((noisyTemperature + 45) * (65535 / 175));
 
 	return rawData;
 }
@@ -28,7 +28,7 @@ uint16_t SHT35::readHumidity() {
 
     uint16_t rawData = 0x0000;
 
-    rawData = (65535 / 100) * noisyHumidity;
+    rawData = int((65535 / 100) * noisyHumidity);
     return rawData;
 }
 
