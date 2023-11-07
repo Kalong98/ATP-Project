@@ -36,6 +36,5 @@ uint16_t LM75::readTemperature() {
 			rawData = rawData | tempValue << 7;
 		}
 	}
-	std::cout << rawData << "\n";
 	return rawData;
 }
