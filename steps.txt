@@ -1,0 +1,2 @@
+build path voor laptop
+python 3.9 installeren https://www.python.org/downloads/release/python-390/

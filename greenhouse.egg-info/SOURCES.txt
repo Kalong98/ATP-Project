@@ -1,0 +1,13 @@
+README.md
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
+CppSource/I2C/i2c.cpp
+CppSource/LM75/lm75.cpp
+CppSource/SHT35/sht35.cpp
+CppSource/simulator/simulator.cpp
+PythonBindings/binding.cpp
+greenhouse.egg-info/PKG-INFO
+greenhouse.egg-info/SOURCES.txt
+greenhouse.egg-info/dependency_links.txt
+greenhouse.egg-info/top_level.txt

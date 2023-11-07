@@ -1,0 +1,48 @@
+
+int main()
+{   
+    double initial_inside_temperature = 25.0;
+    double initial_inside_humidity = 20.0;
+    double initial_outside_temperature = 15.0;
+    double initial_outside_humidity = 60.0;
+    int simulation_duration = 2;
+
+    GreenhouseSimulator simulator(
+        initial_inside_temperature,
+        initial_inside_humidity,
+        initial_outside_temperature,
+        initial_outside_humidity
+    );
+    LM75 lm75(simulator);
+    SHT35 sht35(simulator);
+    I2CSimulation i2c(lm75, sht35);
+    auto [s1, s2] = simulator.generateControls(basic_temperature_control, basic_humidity_control);
+
+    for (int i = 0; i < simulation_duration; i++) {
+        std::cout << "loop:" << i << "\n";
+        i2c.selectDevice(0x48);
+        i2c.write(0x00, 0);
+        i2c.request(2);
+        uint8_t tempMSB = i2c.read();
+        uint8_t tempLSB = i2c.read();
+        i2c.selectDevice(0x44);
+        i2c.write(0x44, 0x24);
+        i2c.write(0x44, 0x26);
+        i2c.request(6);
+        uint8_t data[6] = {0};
+        for (unsigned int i = 0; i < 6; i++){
+            uint8_t value = 0x00;
+            value = i2c.read();
+            data[i] = value;
+        }
+        // int temperature = (i2c.read() << 8) | i2c.read();
+        std::cout << "LM75 temp: " << static_cast<int>(tempMSB) << "," << static_cast<int>(tempLSB) << "\n";
+        std::cout << "SHT35 temp: " << static_cast<int>(data[0]) << "," << static_cast<int>(data[1]) << "\n";
+        std::cout << "SHT35 Humid: " << static_cast<int>(data[3]) << "," << static_cast<int>(data[4]) << "\n";
+        std::cout << s1() << "\n";
+        std::cout << s2() << "\n";
+        std::cout << "\n";
+    }
+
+    return 0;
+}
